@@ -1,0 +1,57 @@
+group = 'orange'
+version = '1.0'
+description = 'Ensayos'
+
+repositories {
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:3.4.2")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: "net.serenity-bdd.serenity-gradle-plugin"
+//apply plugin: 'net.serenity-bdd.aggregator'
+
+
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    implementation group: 'net.serenity-bdd', name: 'serenity-junit', version: '3.5.1'
+    implementation 'net.serenity-bdd:serenity-core:3.5.1'
+    implementation 'net.serenity-bdd:serenity-cucumber:3.5.1'
+    implementation 'net.serenity-bdd:serenity-screenplay:3.5.1'
+    implementation 'net.serenity-bdd:serenity-screenplay-webdriver:3.5.1'
+    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+
+    //implementation 'org.seleniumhq.selenium:selenium-http-jdk-client:3.141.59'
+}
+
+
+test {
+    testLogging {
+        showStandardStreams = true
+    }
+    testLogging.showStandardStreams = true
+    //gradle.startParameter.continueOnFailure = true
+    /* Pass all system properties: */
+    //systemProperties System.getProperties()
+    //systemProperty "cucumber.options", System.getProperty("cucumber.options")
+    test.finalizedBy(aggregate)
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+sourceCompatibility = '1.8'
+
